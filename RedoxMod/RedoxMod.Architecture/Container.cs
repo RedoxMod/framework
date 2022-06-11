@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using RedoxMod.Architecture.Exceptions;
 
@@ -52,8 +53,10 @@ namespace RedoxMod.Architecture
         /// <typeparam name="TService">The Service Contract</typeparam>
         /// <returns>The instance of the service.</returns>
         /// <exception cref="InvalidServiceTypeException">Throws when the service is not a abstract class nor interface</exception>
-        public TService Instance<TService>(TService instance)
-        {
+        public TService Instance<TService>([DisallowNull] TService instance)
+        { 
+            if (instance is null) throw new ArgumentNullException(nameof(instance));
+            
             Type serviceType = typeof(TService);
             
             if (!serviceType.IsAbstract || !serviceType.IsInterface)
@@ -67,6 +70,51 @@ namespace RedoxMod.Architecture
             
             this._bindings.Add(new ServiceBinding(serviceType, instance!.GetType(), instance));
             return instance;
+        }
+
+        public TService Resolve<TService>()
+        {
+            Type serviceType = typeof(TService);
+            return this.Resolve<TService>(serviceType);
+        }
+
+        /// <summary>
+        /// Resolves a binding with service type.
+        /// </summary>
+        /// <param name="serviceType"></param>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="ServiceBindingException"></exception>
+        public TService Resolve<TService>(Type serviceType)
+        {
+            if (!this.Bound<TService>())
+                throw new ServiceBindingException($"Service Type {serviceType.Name} is not bound");
+
+            ServiceBinding binding = this._bindings.Single(b => b.ServiceType == serviceType);
+
+            TService concreteInstance = this.ResolveBinding<TService>(binding);
+            return concreteInstance;
+        }
+        
+        private TService ResolveBinding<TService>(ServiceBinding binding)
+        {
+            if (binding.Lifetime is ServiceLifetime.Transient)
+            {
+                this.InstantiateBinding(binding);
+                return (TService)binding.Instance!;
+            }
+
+            if (binding.Instance != null) 
+                return (TService)binding.Instance;
+            
+            this.InstantiateBinding(binding);
+            return (TService)binding.Instance!;
+        }
+
+        private void InstantiateBinding(ServiceBinding binding)
+        {
+            object instance = binding.ConcreteType.CreateInstanceWithDependencies(this);
+            binding.Instance = instance;
         }
     }
 }
