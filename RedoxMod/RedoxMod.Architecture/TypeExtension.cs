@@ -5,6 +5,12 @@ namespace RedoxMod.Architecture
 {
     public static class TypeExtension
     {
+        /// <summary>
+        /// Instantiate this type using the dependency container.
+        /// </summary>
+        /// <param name="type">The extension type.</param>
+        /// <param name="container">The dependency container.</param>
+        /// <returns>The created instance.</returns>
         public static object CreateInstanceWithDependencies(this Type type, Container container)
         {
             ConstructorInfo constructor = type.GetConstructors(BindingFlags.Public)[0];
