@@ -33,7 +33,7 @@ namespace RedoxMod.Architecture
                     continue;
                 }
 
-                @params[i] = container.Resolve<object>(parameterType);
+                @params[i] = container.Resolve(parameterType);
             }
             
             object instance = Activator.CreateInstance(type, @params);
