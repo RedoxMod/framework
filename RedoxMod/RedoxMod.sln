@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedoxMod.Architecture", "RedoxMod.Architecture\RedoxMod.Architecture.csproj", "{C67137AE-F3D4-4844-A73E-DED6E8DAD75B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedoxMod.API", "RedoxMod.API\RedoxMod.API.csproj", "{43ABDEB4-F9C2-4FEB-B883-CC4F559AA470}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{C67137AE-F3D4-4844-A73E-DED6E8DAD75B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67137AE-F3D4-4844-A73E-DED6E8DAD75B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67137AE-F3D4-4844-A73E-DED6E8DAD75B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43ABDEB4-F9C2-4FEB-B883-CC4F559AA470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43ABDEB4-F9C2-4FEB-B883-CC4F559AA470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43ABDEB4-F9C2-4FEB-B883-CC4F559AA470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43ABDEB4-F9C2-4FEB-B883-CC4F559AA470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
