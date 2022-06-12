@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace RedoxMod.Architecture
 {
     public static class TypeExtension
     {
+        private const BindingFlags Flags = BindingFlags.Public | BindingFlags.Instance;
+        
         /// <summary>
         /// Instantiate this type using the dependency container.
         /// </summary>
@@ -13,7 +16,9 @@ namespace RedoxMod.Architecture
         /// <returns>The created instance.</returns>
         public static object CreateInstanceWithDependencies(this Type type, Container container)
         {
-            ConstructorInfo constructor = type.GetConstructors(BindingFlags.Public)[0];
+            ConstructorInfo constructor = type.GetConstructors(Flags).FirstOrDefault() 
+                                          ?? throw new InvalidOperationException($"Type {type.Name} doesn't have a public constructor!");
+            
             ParameterInfo[] parameters = constructor.GetParameters();
             object[] @params = new object[parameters.Length];
             
