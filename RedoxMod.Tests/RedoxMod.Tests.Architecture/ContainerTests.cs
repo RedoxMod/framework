@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿
 using NUnit.Framework;
 using RedoxMod.Architecture;
 using RedoxMod.Tests.Architecture.Concretes;
@@ -17,6 +16,7 @@ namespace RedoxMod.Tests.Architecture
             this._container = new Container();
             
             this._container.Bind<ILogger, Logger>();
+            this._container.Bind<IMessageProvider, MessageProvider>();
         }
         
         [Test]
@@ -29,7 +29,21 @@ namespace RedoxMod.Tests.Architecture
             logger?.Log("Hello World!");
             
             //Assert
-            Assert.IsTrue(logger != null);
+            Assert.NotNull(logger);
+        }
+
+        [Test]
+        public void Resolve_And_Test_The_MessageProvider_To_See_If_Constructor_Injection_Works_Or_Not()
+        {
+            //Arrange
+            IMessageProvider messageProvider = this._container.Resolve<IMessageProvider>();
+            
+            //Act
+            messageProvider?.Greet();
+            messageProvider?.Goodbye();
+            
+            //Assert
+            Assert.NotNull(messageProvider);
         }
     }
 }
