@@ -75,7 +75,7 @@ namespace RedoxMod.Architecture
         public TService Resolve<TService>()
         {
             Type serviceType = typeof(TService);
-            return this.Resolve<TService>(serviceType);
+            return (TService)this.Resolve(serviceType);
         }
 
         /// <summary>
@@ -85,30 +85,30 @@ namespace RedoxMod.Architecture
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         /// <exception cref="ServiceBindingException"></exception>
-        public TService Resolve<TService>(Type serviceType)
+        public object Resolve(Type serviceType)
         {
-            if (!this.Bound<TService>())
+            if (!this.Bound<object>(serviceType))
                 throw new ServiceBindingException($"Service Type {serviceType.Name} is not bound");
 
             ServiceBinding binding = this._bindings.Single(b => b.ServiceType == serviceType);
 
-            TService concreteInstance = this.ResolveBinding<TService>(binding);
+            object concreteInstance = this.ResolveBinding(binding);
             return concreteInstance;
         }
         
-        private TService ResolveBinding<TService>(ServiceBinding binding)
+        private object ResolveBinding(ServiceBinding binding)
         {
             if (binding.Lifetime is ServiceLifetime.Transient)
             {
                 this.InstantiateBinding(binding);
-                return (TService)binding.Instance!;
+                return binding.Instance!;
             }
 
             if (binding.Instance != null) 
-                return (TService)binding.Instance;
+                return binding.Instance;
             
             this.InstantiateBinding(binding);
-            return (TService)binding.Instance!;
+            return binding.Instance!;
         }
 
         private void InstantiateBinding(ServiceBinding binding)
