@@ -17,14 +17,14 @@ namespace RedoxMod.Tests.Architecture
         public void Setup()
         {
             this._container = new Container();
+            
+            this._container.Bind<ILogger, Logger>();
         }
         
         [Test]
         public void TestResolvingTheLoggerServiceFromTheContainer()
         {
             //Arrange
-            this._container.Bind<ILogger, Logger>();
-            
             ILogger logger = this._container.Resolve<ILogger>();
             
             //Act
@@ -38,7 +38,9 @@ namespace RedoxMod.Tests.Architecture
         public void Resolve_And_Test_The_MessageProvider_To_See_If_Constructor_Injection_Works_Or_Not()
         {
             //Arrange
+            this._container.Bind<ILogger, Logger>();
             this._container.Bind<IMessageProvider, MessageProvider>();
+            
             IMessageProvider messageProvider = this._container.Resolve<IMessageProvider>();
             
             //Act
