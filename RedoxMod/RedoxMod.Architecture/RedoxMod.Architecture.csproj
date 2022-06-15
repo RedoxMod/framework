@@ -5,8 +5,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\RedoxMod.API\RedoxMod.API.csproj" />
-    </ItemGroup>
-
 </Project>
