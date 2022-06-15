@@ -17,14 +17,13 @@ namespace RedoxMod.Tests.Architecture
         public void Setup()
         {
             this._container = new Container();
-            
-            this._container.Bind<ILogger, Logger>();
         }
         
         [Test]
         public void TestResolvingTheLoggerServiceFromTheContainer()
         {
             //Arrange
+            this._container.Bind<ILogger, Logger>();
             ILogger logger = this._container.Resolve<ILogger>();
             
             //Act
