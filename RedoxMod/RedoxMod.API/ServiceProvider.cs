@@ -1,7 +1,6 @@
 ﻿using System;
-using RedoxMod.API;
 
-namespace RedoxMod.Architecture
+namespace RedoxMod.API
 {
     public abstract class ServiceProvider
     {
@@ -16,10 +15,12 @@ namespace RedoxMod.Architecture
         {
             _app = app;
         }
-        
+
         /// <summary>
         /// Register all the provider services.
         /// </summary>
-        public virtual void Register() {}
+        public virtual void Register()
+        {
+        }
     }
 }
