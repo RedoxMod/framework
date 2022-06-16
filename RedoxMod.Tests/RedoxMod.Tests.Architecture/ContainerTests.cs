@@ -9,6 +9,7 @@ using RedoxMod.Tests.Architecture.Contracts;
 
 namespace RedoxMod.Tests.Architecture
 {
+    [TestFixture]
     public class ContainerTests
     {
         private Container _container;
