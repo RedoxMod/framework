@@ -11,6 +11,16 @@
         <PackageReference Include="NUnit" Version="3.13.1" />
         <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
         <PackageReference Include="coverlet.collector" Version="3.0.2" />
+        <PackageReference Include="Semver" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="RedoxMod.API">
+        <HintPath>..\..\RedoxMod\RedoxMod.API\bin\Debug\netstandard2.1\RedoxMod.API.dll</HintPath>
+      </Reference>
+      <Reference Include="RedoxMod.Core">
+        <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.Core.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
