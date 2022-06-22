@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using RedoxMod.API;
 using RedoxMod.Architecture;
 using Semver;
@@ -20,7 +19,7 @@ namespace RedoxMod.Core
         }
 
         /// <inheritdoc />
-        public Container Container { get; }
+        public Container Container { get; private set; }
 
         /// <inheritdoc />
         public string BasePath { get; }
@@ -30,6 +29,9 @@ namespace RedoxMod.Core
 
         /// <inheritdoc />
         public string LangPath { get; private set; }
+
+        /// <inheritdoc />
+        public string ConfigurationsPath { get; private set; }
 
         /// <inheritdoc />
         public string RootPath { get; private set;}
@@ -51,13 +53,28 @@ namespace RedoxMod.Core
 
         private void RegisterBindings()
         {
-           // this.Container.Instance<IApplication>(this);
+            this.Container = new Container();
+            
+            this.Container.Instance<IApplication>(this);
         }
 
         private void CheckDirectories()
         {
             this.PluginsPath = Path.Combine(this.BasePath, "Plugins");
             this.LangPath = Path.Combine(this.BasePath, "Lang");
+            this.ConfigurationsPath = Path.Combine(this.BasePath, "Configs");
+
+            if (!Directory.Exists(this.BasePath))
+                Directory.CreateDirectory(this.BasePath);
+            
+            if(!Directory.Exists(this.PluginsPath))
+                Directory.CreateDirectory(this.PluginsPath);
+            
+            if(!Directory.Exists(this.LangPath))
+                Directory.CreateDirectory(this.LangPath);
+            
+            if(!Directory.Exists(this.ConfigurationsPath))
+                Directory.CreateDirectory(this.ConfigurationsPath);
         }
     }
 }
