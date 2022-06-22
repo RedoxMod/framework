@@ -31,9 +31,15 @@ namespace RedoxMod.API
         string LangPath { get; }
         
         /// <summary>
+        /// Gets the path to the configurations directory.
+        /// </summary>
+        string ConfigurationsPath { get; }
+        
+        /// <summary>
         /// Gets the path to the directory where the RedoxMod assemblies are located.
         /// </summary>
         string RootPath { get; }
+        
 
         /// <summary>
         /// Initializes the application.
