@@ -10,6 +10,11 @@ namespace RedoxMod.API
         /// Gets the service contracts of this provider.
         /// </summary>
         public virtual Type[] Contracts { get; }
+
+        /// <summary>
+        /// Gets if the provider is deferrable or not.
+        /// </summary>
+        public virtual bool IsDeferrable { get; } = false;
         
         protected ServiceProvider(IApplication app)
         {
