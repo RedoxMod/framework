@@ -1,6 +1,8 @@
-﻿namespace RedoxMod.Tests.Architecture.Contracts
+﻿using RedoxMod.Architecture;
+
+namespace RedoxMod.Tests.Architecture.Contracts
 {
-    public interface ILogger
+    public interface ILogger : IService
     {
         void Log(string message);
     }

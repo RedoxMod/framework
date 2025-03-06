@@ -1,9 +1,13 @@
-﻿using RedoxMod.Architecture;
+﻿using RedoxMod.API.Configuration;
+using RedoxMod.Architecture;
 using Semver;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RedoxMod.API
 {
-    public interface IApplication 
+    public interface IApplication : IService, IConfigurable
     {
         /// <summary>
         /// Gets the version of the application.
@@ -13,7 +17,9 @@ namespace RedoxMod.API
         /// <summary>
         /// Gets the dependency container of this application.
         /// </summary>
-        Container Container { get;}
+        IContainer Container { get;}
+
+        ServiceProvider[] Providers { get;}
         
         /// <summary>
         /// Gets the custom path of the RedoxMod installation.
@@ -44,6 +50,8 @@ namespace RedoxMod.API
         /// <summary>
         /// Initializes the application.
         /// </summary>
-        void Initialize();
+        Task InitializeAsync();
+
+        void RegisterServiceProvider<TServiceProvider>() where TServiceProvider : ServiceProvider;
     }
 }

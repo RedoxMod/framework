@@ -2,8 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <AssemblyVersion>0.1.0-beta-1</AssemblyVersion>
+        <SignAssembly>False</SignAssembly>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Jint" Version="4.2.0" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\RedoxMod.API\RedoxMod.API.csproj" />

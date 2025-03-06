@@ -1,6 +1,8 @@
-﻿namespace RedoxMod.Tests.Architecture.Contracts
+﻿using RedoxMod.Architecture;
+
+namespace RedoxMod.Tests.Architecture.Contracts
 {
-    public interface IMessageProvider
+    public interface IMessageProvider: IService
     {
         void Greet();
 

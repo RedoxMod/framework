@@ -1,13 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using RedoxMod.API;
+using RedoxMod.API.Configuration;
 using RedoxMod.Architecture;
 using Semver;
 
 namespace RedoxMod.Core
 {
+    [ServiceInfo("Application", ServiceLifetime.Singleton)]
     public sealed class Application : IApplication
     {
+        private readonly IList<ServiceProvider> _serviceProviders = new List<ServiceProvider>();
+
+        public ServiceProvider[] Providers
+        {
+            get
+            {
+                return this._serviceProviders.ToArray();
+            }
+        }
+
+        public IConfiguration Configuration => throw new NotImplementedException();
+
+
         /// <inheritdoc />
         public SemVersion Version
         {
@@ -19,7 +37,7 @@ namespace RedoxMod.Core
         }
 
         /// <inheritdoc />
-        public Container Container { get; private set; }
+        public IContainer Container { get; private set; }
 
         /// <inheritdoc />
         public string BasePath { get; }
@@ -34,8 +52,7 @@ namespace RedoxMod.Core
         public string ConfigurationsPath { get; private set; }
 
         /// <inheritdoc />
-        public string RootPath { get; private set;}
-        
+        public string RootPath { get; private set;}   
         public Application(string basePath = "")
         {
             BasePath = string.IsNullOrEmpty(basePath) ? 
@@ -45,10 +62,12 @@ namespace RedoxMod.Core
         }
 
         /// <inheritdoc />
-        public void Initialize()
+        public Task InitializeAsync()
         {
             this.CheckDirectories();
             this.RegisterBindings();
+
+            return Task.CompletedTask;
         }
 
         private void RegisterBindings()
@@ -56,6 +75,7 @@ namespace RedoxMod.Core
             this.Container = new Container();
             
             this.Container.Instance<IApplication>(this);
+
         }
 
         private void CheckDirectories()
@@ -75,6 +95,38 @@ namespace RedoxMod.Core
             
             if(!Directory.Exists(this.ConfigurationsPath))
                 Directory.CreateDirectory(this.ConfigurationsPath);
+        }
+
+        public Task LoadServiceAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task UnloadServiceAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public void RegisterServiceProvider<TServiceProvider>() where TServiceProvider : ServiceProvider
+        {
+            try
+            {
+                ServiceProvider provider = this.Providers.FirstOrDefault(p => p.GetType() == typeof(TServiceProvider));
+
+                if (provider != null)
+                {
+                    return;
+                }
+
+                provider = (ServiceProvider)Activator.CreateInstance(typeof(TServiceProvider), this);
+                this._serviceProviders.Add(provider);
+
+                provider.Register();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

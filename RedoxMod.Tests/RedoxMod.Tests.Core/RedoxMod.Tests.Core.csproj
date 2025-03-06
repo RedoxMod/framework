@@ -15,8 +15,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\RedoxMod.Tests.Architecture\RedoxMod.Tests.Architecture.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Reference Include="RedoxMod.API">
-        <HintPath>..\..\RedoxMod\RedoxMod.API\bin\Debug\netstandard2.1\RedoxMod.API.dll</HintPath>
+        <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.API.dll</HintPath>
+      </Reference>
+      <Reference Include="RedoxMod.Architecture">
+        <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.Architecture.dll</HintPath>
       </Reference>
       <Reference Include="RedoxMod.Core">
         <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.Core.dll</HintPath>
