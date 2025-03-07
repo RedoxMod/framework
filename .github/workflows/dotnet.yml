@@ -1,0 +1,37 @@
+# GitHub Actions workflow for building and testing RedoxMod
+
+name: .NET CI
+
+on:
+  push:  # Run on all branches
+  pull_request:
+    branches: [ "main", "development" ]  # Ensure tests run before merging into main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x  # Change this if using a different version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run tests
+        run: dotnet test RedoxMod.Tests/RedoxMod.Tests.csproj --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+
+      - name: Upload test results (optional)
+        if: success() || failure()  # Always upload results even if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: RedoxMod.Tests/TestResults/
