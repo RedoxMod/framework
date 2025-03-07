@@ -11,12 +11,12 @@ namespace RedoxMod.Tests.Core
     [TestFixture]
     public class ApplicationTests
     {
-        private IApplication _app;
+        private IRedoxApplication _app;
         
         [SetUp]
         public void Setup()
         {
-            this._app = new Application();
+            this._app = new RedoxApplication();
         }
 
         #region Unit test the basepath.
@@ -25,7 +25,7 @@ namespace RedoxMod.Tests.Core
         public void Constructor_Should_Set_BasePath_To_Default_If_Empty()
         {
             // Act
-            var app = new Application();
+            var app = new RedoxApplication();
 
             // Assert
             Assert.That(app.BasePath, Is.EqualTo(Path.Combine(Directory.GetCurrentDirectory(), "redox")));
@@ -38,7 +38,7 @@ namespace RedoxMod.Tests.Core
             string customPath = "/custom/path";
 
             // Act
-            var app = new Application(customPath);
+            var app = new RedoxApplication(customPath);
 
             // Assert
             Assert.That(app.BasePath, Is.EqualTo(customPath));
@@ -51,7 +51,7 @@ namespace RedoxMod.Tests.Core
         {
             // Arrange
             string testBasePath = Path.Combine(Path.GetTempPath(), "redox_test");
-            var app = new Application(testBasePath);
+            var app = new RedoxApplication(testBasePath);
 
             // Act
             await app.InitializeAsync();
@@ -70,7 +70,7 @@ namespace RedoxMod.Tests.Core
         public async Task InitializeAsync_Should_Initialize_Container()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
 
             // Act
             await app.InitializeAsync();
@@ -83,11 +83,11 @@ namespace RedoxMod.Tests.Core
         public async Task InitializeAsync_Should_Register_Application_In_Container()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
 
             // Act
             await app.InitializeAsync();
-            var resolvedApp = app.Container.Resolve<IApplication>();
+            var resolvedApp = app.Container.Resolve<IRedoxApplication>();
 
             // Assert
 
@@ -98,7 +98,7 @@ namespace RedoxMod.Tests.Core
         public void Version_Should_Return_Correct_Semantic_Version()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
 
             // Act
             var version = app.Version;

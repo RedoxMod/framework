@@ -11,7 +11,7 @@ using Semver;
 namespace RedoxMod.Core
 {
     [ServiceInfo("Application", ServiceLifetime.Singleton)]
-    public sealed class Application : IApplication
+    public sealed class RedoxApplication : IRedoxApplication
     {
         private readonly IList<ServiceProvider> _serviceProviders = new List<ServiceProvider>();
 
@@ -53,7 +53,7 @@ namespace RedoxMod.Core
 
         /// <inheritdoc />
         public string RootPath { get; private set;}   
-        public Application(string basePath = "")
+        public RedoxApplication(string basePath = "")
         {
             BasePath = string.IsNullOrEmpty(basePath) ? 
                     Path.Combine(Directory.GetCurrentDirectory(), "redox") 
@@ -74,7 +74,7 @@ namespace RedoxMod.Core
         {
             this.Container = new Container();
             
-            this.Container.Instance<IApplication>(this);
+            this.Container.Instance<IRedoxApplication>(this);
 
         }
 

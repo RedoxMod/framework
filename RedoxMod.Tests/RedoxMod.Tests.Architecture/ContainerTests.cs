@@ -55,8 +55,8 @@ namespace RedoxMod.Tests.Architecture
         public void Bind_And_Resolve_An_Existing_Instance_Dependency()
         {
             //Arrange
-            this._container.Instance<IApplication>(new Application());
-            IApplication app = this._container.Resolve<IApplication>();
+            this._container.Instance<IRedoxApplication>(new RedoxApplication());
+            IRedoxApplication app = this._container.Resolve<IRedoxApplication>();
             
             //Act
             

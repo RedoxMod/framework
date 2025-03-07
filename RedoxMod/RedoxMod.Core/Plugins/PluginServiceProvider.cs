@@ -8,7 +8,7 @@ namespace RedoxMod.Core.Plugins
 {
     public class PluginServiceProvider : ServiceProvider
     {
-        public PluginServiceProvider(IApplication app) : base(app){}
+        public PluginServiceProvider(IRedoxApplication app) : base(app){}
 
         public override void Register()
         {
