@@ -14,7 +14,7 @@ namespace RedoxMod.Tests.Core
         {
             // Arrange
             string testBasePath = Path.Combine(Path.GetTempPath(), "redox_feature_test");
-            var app = new Application(testBasePath);
+            var app = new RedoxApplication(testBasePath);
 
             // Act
             await app.InitializeAsync();
@@ -23,7 +23,7 @@ namespace RedoxMod.Tests.Core
             Assert.That(Directory.Exists(app.PluginsPath), Is.True);
             Assert.That(Directory.Exists(app.LangPath), Is.True);
             Assert.That(Directory.Exists(app.ConfigurationsPath), Is.True);
-            Assert.That(app.Container.Resolve<IApplication>(), Is.SameAs(app));
+            Assert.That(app.Container.Resolve<IRedoxApplication>(), Is.SameAs(app));
 
             // Cleanup
             Directory.Delete(testBasePath, true);
@@ -33,7 +33,7 @@ namespace RedoxMod.Tests.Core
         public async Task Application_Should_Register_And_Resolve_ServiceProviders()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
             await app.InitializeAsync();
 
             // Act
@@ -48,7 +48,7 @@ namespace RedoxMod.Tests.Core
         public async Task Application_Full_Lifecycle_Should_Work_Correctly()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
             await app.InitializeAsync();
             app.RegisterServiceProvider<TestServiceProvider>();
 

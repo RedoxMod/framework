@@ -6,7 +6,7 @@ namespace RedoxMod.API
 {
     public abstract class ServiceProvider
     {
-        protected readonly IApplication App;
+        protected readonly IRedoxApplication App;
 
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace RedoxMod.API
         /// </summary>
         public virtual bool IsDeferrable { get; } = false;
         
-        public ServiceProvider(IApplication app)
+        public ServiceProvider(IRedoxApplication app)
         {
             this.App = app;
         }

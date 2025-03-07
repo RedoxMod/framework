@@ -9,7 +9,7 @@ namespace RedoxMod.Tests.Core
 
         public class TestServiceProvider : ServiceProvider
         {
-            public TestServiceProvider(IApplication app) : base(app) { }
+            public TestServiceProvider(IRedoxApplication app) : base(app) { }
             public override void Register() { }
         }
 
@@ -18,7 +18,7 @@ namespace RedoxMod.Tests.Core
         public void RegisterServiceProvider_Should_Add_New_ServiceProvider()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
 
             // Act
             app.RegisterServiceProvider<TestServiceProvider>();
@@ -32,7 +32,7 @@ namespace RedoxMod.Tests.Core
         public void RegisterServiceProvider_Should_Not_Add_Duplicate_Providers()
         {
             // Arrange
-            var app = new Application();
+            var app = new RedoxApplication();
 
             // Act
             app.RegisterServiceProvider<TestServiceProvider>();

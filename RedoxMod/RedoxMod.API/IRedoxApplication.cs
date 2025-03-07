@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RedoxMod.API
 {
-    public interface IApplication : IService, IConfigurable
+    public interface IRedoxApplication : IService, IConfigurable
     {
         /// <summary>
         /// Gets the version of the application.
