@@ -14,7 +14,7 @@ namespace RedoxMod.Architecture
         /// <param name="type">The extension type.</param>
         /// <param name="container">The dependency container.</param>
         /// <returns>The created instance.</returns>
-        public static object CreateInstanceWithDependencies(this Type type, Container container)
+        public static IService CreateInstanceWithDependencies(this Type type, Container container)
         {
             ConstructorInfo constructor = type.GetConstructors(Flags).FirstOrDefault() 
                                           ?? throw new InvalidOperationException($"Type {type.Name} doesn't have a public constructor!");
@@ -27,7 +27,7 @@ namespace RedoxMod.Architecture
                 ParameterInfo parameter = parameters[i];
                 Type parameterType = parameter.ParameterType;
 
-                if (!container.Bound<object>(parameterType))
+                if (!container.Bound<IService>(parameterType))
                 {
                     @params[i] = null!;
                     continue;
@@ -37,7 +37,7 @@ namespace RedoxMod.Architecture
             }
             
             object instance = Activator.CreateInstance(type, @params);
-            return instance;
+            return (IService)instance;
         }
     }
 }

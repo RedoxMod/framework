@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedoxMod.Architecture", "RedoxMod.Architecture\RedoxMod.Architecture.csproj", "{C67137AE-F3D4-4844-A73E-DED6E8DAD75B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedoxMod.API", "RedoxMod.API\RedoxMod.API.csproj", "{43ABDEB4-F9C2-4FEB-B883-CC4F559AA470}"
@@ -24,5 +27,11 @@ Global
 		{00408A71-387C-4ADF-891D-9ACEA1869A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00408A71-387C-4ADF-891D-9ACEA1869A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00408A71-387C-4ADF-891D-9ACEA1869A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C2D25A0-5DD7-4E5D-B620-C3DD330A6704}
 	EndGlobalSection
 EndGlobal

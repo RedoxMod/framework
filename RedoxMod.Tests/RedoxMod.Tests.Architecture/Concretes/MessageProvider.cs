@@ -1,5 +1,6 @@
 ﻿using RedoxMod.Architecture;
 using RedoxMod.Tests.Architecture.Contracts;
+using System.Threading.Tasks;
 
 namespace RedoxMod.Tests.Architecture.Concretes
 {
@@ -21,6 +22,16 @@ namespace RedoxMod.Tests.Architecture.Concretes
         public void Goodbye()
         {
             this._logger.Log("Goodbye everyone, hope to see you later :)");
+        }
+
+        public Task LoadServiceAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task UnloadServiceAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

@@ -32,14 +32,14 @@ namespace RedoxMod.Architecture
         /// <summary>
         /// Gets the instance of the Service Implementation.
         /// </summary>
-        public object? Instance { get; internal set; }
+        public IService? Instance { get; internal set; }
         
         /// <summary>
         /// Gets if the service has been resolved or not.
         /// </summary>
         public bool Resolved { get; internal set; }
         
-        public ServiceBinding(Type serviceType, Type concreteType, object? instance = null)
+        public ServiceBinding(Type serviceType, Type concreteType, IService? instance = null)
         {
             ServiceType = serviceType;
             ConcreteType = concreteType;

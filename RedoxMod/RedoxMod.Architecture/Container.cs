@@ -9,7 +9,7 @@ namespace RedoxMod.Architecture
     /// <summary>
     /// The Container is responsible for handling the dependency injection of the RedoxMod framework.
     /// </summary>
-    public class Container
+    public class Container : IContainer
     {
         private readonly List<ServiceBinding> _bindings = new List<ServiceBinding>();
 
@@ -20,7 +20,9 @@ namespace RedoxMod.Architecture
         /// <typeparam name="TConcrete">The Concrete Service.</typeparam>
         /// <exception cref="InvalidServiceTypeException">Throws when the service is not a abstract class nor interface</exception>
         /// <exception cref="ServiceBindingException">Throws when the service contract is already bound.</exception>
-        public void Bind<TService, TConcrete>() where TConcrete : class, TService
+        public void Bind<TService, TConcrete>()
+            where TService : IService
+            where TConcrete : class, TService
         {
             Type serviceType = typeof(TService);
             Type concreteType = typeof(TConcrete);
@@ -41,6 +43,7 @@ namespace RedoxMod.Architecture
         /// <param name="service">The service type (Optional)</param>
         /// <returns>If the service is bound or not.</returns>
         public bool Bound<TService>(Type? service = null)
+             where TService : IService
         {
             Type serviceType = service ?? typeof(TService);
             return this._bindings.Any(b => b.ServiceType == serviceType);
@@ -54,11 +57,12 @@ namespace RedoxMod.Architecture
         /// <returns>The instance of the service.</returns>
         /// <exception cref="InvalidServiceTypeException">Throws when the service is not a abstract class nor interface</exception>
         public TService Instance<TService>([DisallowNull] TService instance)
-        { 
+             where TService : IService
+        {
             if (instance is null) throw new ArgumentNullException(nameof(instance));
-            
+
             Type serviceType = typeof(TService);
-            
+
             if (!serviceType.IsAbstract || !serviceType.IsInterface)
                 throw new InvalidServiceTypeException($"Type {serviceType.Name} must be either abstract or an interface!");
 
@@ -67,12 +71,13 @@ namespace RedoxMod.Architecture
                 instance = (TService)this._bindings.Single(b => b.ServiceType == serviceType).Instance!;
                 return instance;
             }
-            
+
             this._bindings.Add(new ServiceBinding(serviceType, instance!.GetType(), instance));
             return instance;
         }
 
         public TService Resolve<TService>()
+             where TService : IService
         {
             Type serviceType = typeof(TService);
             return (TService)this.Resolve(serviceType);
@@ -85,18 +90,18 @@ namespace RedoxMod.Architecture
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         /// <exception cref="ServiceBindingException"></exception>
-        public object Resolve(Type serviceType)
+        public IService Resolve(Type serviceType)
         {
-            if (!this.Bound<object>(serviceType))
+            if (!this.Bound<IService>(serviceType))
                 throw new ServiceBindingException($"Service Type {serviceType.Name} is not bound");
 
             ServiceBinding binding = this._bindings.Single(b => b.ServiceType == serviceType);
 
-            object concreteInstance = this.ResolveBinding(binding);
+            IService concreteInstance = this.ResolveBinding(binding);
             return concreteInstance;
         }
-        
-        private object ResolveBinding(ServiceBinding binding)
+
+        private IService ResolveBinding(ServiceBinding binding)
         {
             if (binding.Lifetime is ServiceLifetime.Transient)
             {
@@ -104,17 +109,19 @@ namespace RedoxMod.Architecture
                 return binding.Instance!;
             }
 
-            if (binding.Instance != null) 
+            if (binding.Instance != null)
                 return binding.Instance;
-            
+
             this.InstantiateBinding(binding);
             return binding.Instance!;
         }
 
         private void InstantiateBinding(ServiceBinding binding)
         {
-            object instance = binding.ConcreteType.CreateInstanceWithDependencies(this);
+            IService instance = binding.ConcreteType.CreateInstanceWithDependencies(this);
             binding.Instance = instance;
+
+            instance.LoadServiceAsync();
         }
     }
 }
