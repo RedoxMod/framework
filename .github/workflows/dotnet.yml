@@ -1,11 +1,10 @@
-# GitHub Actions workflow for building and testing RedoxMod
-
 name: .NET CI
 
 on:
-  push:  # Run on all branches
+  push:
+    branches: ["development", "feature/*", "main"]  # Run tests on all branches
   pull_request:
-    branches: [ "main", "development" ]  # Ensure tests run before merging into main
+    branches: ["main", "development"]
 
 jobs:
   build-and-test:
@@ -18,7 +17,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x  # Change this if using a different version
+          dotnet-version: 8.0.x
 
       - name: Restore dependencies
         run: dotnet restore
@@ -27,11 +26,12 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test RedoxMod.Tests/RedoxMod.Tests.csproj --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+        run: dotnet test RedoxMod.Tests/RedoxMod.Tests.csproj --no-build --configuration Release --verbosity normal
 
+      # Remove or adjust if not storing test results manually
       - name: Upload test results (optional)
-        if: success() || failure()  # Always upload results even if tests fail
+        if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: RedoxMod.Tests/TestResults/
+          path: $(System.DefaultWorkingDirectory)/RedoxMod.Tests/TestResults/  # Adjust path if necessary
