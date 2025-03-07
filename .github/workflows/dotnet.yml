@@ -27,11 +27,3 @@ jobs:
 
       - name: Run tests
         run: dotnet test RedoxMod.Tests/RedoxMod.Tests.csproj --no-build --configuration Release --verbosity normal
-
-      # Remove or adjust if not storing test results manually
-      - name: Upload test results (optional)
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
-          path: $(System.DefaultWorkingDirectory)/RedoxMod.Tests/TestResults/  # Adjust path if necessary
