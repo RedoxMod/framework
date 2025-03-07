@@ -18,19 +18,35 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-          
+
+      # Restore dependencies for RedoxMod (main solution)
       - name: Restore dependencies (RedoxMod)
         run: dotnet restore RedoxMod/RedoxMod.sln
 
+      # Build RedoxMod solution
       - name: Build (RedoxMod)
         run: dotnet build RedoxMod/RedoxMod.sln --no-restore --configuration Release
 
-      # Run tests for RedoxMod.Tests
-      - name: Restore dependencies (RedoxMod.Tests)
-        run: dotnet restore RedoxMod.Tests/RedoxMod.Tests.csproj
+      # Restore dependencies for RedoxMod.Tests.Architecture
+      - name: Restore dependencies (RedoxMod.Tests.Architecture)
+        run: dotnet restore RedoxMod.Tests/RedoxMod.Tests.Architecture/RedoxMod.Tests.Architecture.csproj
 
-      - name: Build (RedoxMod.Tests)
-        run: dotnet build RedoxMod.Tests/RedoxMod.Tests.csproj --no-restore --configuration Release
+      # Restore dependencies for RedoxMod.Tests.Core
+      - name: Restore dependencies (RedoxMod.Tests.Core)
+        run: dotnet restore RedoxMod.Tests/RedoxMod.Tests.Core/RedoxMod.Tests.Core.csproj
 
-      - name: Run tests (RedoxMod.Tests)
-        run: dotnet test RedoxMod.Tests/RedoxMod.Tests.csproj --no-build --configuration Release --verbosity normal
+      # Build RedoxMod.Tests.Architecture
+      - name: Build (RedoxMod.Tests.Architecture)
+        run: dotnet build RedoxMod.Tests/RedoxMod.Tests.Architecture/RedoxMod.Tests.Architecture.csproj --no-restore --configuration Release
+
+      # Build RedoxMod.Tests.Core
+      - name: Build (RedoxMod.Tests.Core)
+        run: dotnet build RedoxMod.Tests/RedoxMod.Tests.Core/RedoxMod.Tests.Core.csproj --no-restore --configuration Release
+
+      # Run tests for RedoxMod.Tests.Architecture
+      - name: Run tests (RedoxMod.Tests.Architecture)
+        run: dotnet test RedoxMod.Tests/RedoxMod.Tests.Architecture/RedoxMod.Tests.Architecture.csproj --no-build --configuration Release --verbosity normal
+
+      # Run tests for RedoxMod.Tests.Core
+      - name: Run tests (RedoxMod.Tests.Core)
+        run: dotnet test RedoxMod.Tests/RedoxMod.Tests.Core/RedoxMod.Tests.Core.csproj --no-build --configuration Release --verbosity normal
