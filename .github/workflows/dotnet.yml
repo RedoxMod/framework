@@ -18,12 +18,19 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+          
+      - name: Restore dependencies (RedoxMod)
+        run: dotnet restore RedoxMod/RedoxMod.sln
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Build (RedoxMod)
+        run: dotnet build RedoxMod/RedoxMod.sln --no-restore --configuration Release
 
-      - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+      # Run tests for RedoxMod.Tests
+      - name: Restore dependencies (RedoxMod.Tests)
+        run: dotnet restore RedoxMod.Tests/RedoxMod.Tests.csproj
 
-      - name: Run tests
+      - name: Build (RedoxMod.Tests)
+        run: dotnet build RedoxMod.Tests/RedoxMod.Tests.csproj --no-restore --configuration Release
+
+      - name: Run tests (RedoxMod.Tests)
         run: dotnet test RedoxMod.Tests/RedoxMod.Tests.csproj --no-build --configuration Release --verbosity normal
