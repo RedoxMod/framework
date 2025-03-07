@@ -19,15 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="RedoxMod.API">
-        <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.API.dll</HintPath>
-      </Reference>
-      <Reference Include="RedoxMod.Architecture">
-        <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.Architecture.dll</HintPath>
-      </Reference>
-      <Reference Include="RedoxMod.Core">
-        <HintPath>..\..\RedoxMod\RedoxMod.Core\bin\Debug\netstandard2.1\RedoxMod.Core.dll</HintPath>
-      </Reference>
+      <ProjectReference Include="..\..\RedoxMod\RedoxMod.API\RedoxMod.API.csproj" />
+      <ProjectReference Include="..\..\RedoxMod\RedoxMod.Architecture\RedoxMod.Architecture.csproj" />
+      <ProjectReference Include="..\..\RedoxMod\RedoxMod.Core\RedoxMod.Core.csproj" />
     </ItemGroup>
-
 </Project>
