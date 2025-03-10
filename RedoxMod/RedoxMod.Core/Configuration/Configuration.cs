@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RedoxMod.API.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RedoxMod.Core.Configuration
@@ -47,6 +44,11 @@ namespace RedoxMod.Core.Configuration
         {
             if (defaultConfig == null)
                 throw new Exception("Failed to save config. Object is null!");
+
+            if(!Directory.Exists(this.WorkingDirectory))
+            {
+                Directory.CreateDirectory(this.WorkingDirectory);
+            }
 
             string json = JsonConvert.SerializeObject(defaultConfig, Formatting.Indented);
             await File.WriteAllTextAsync(this.FullPath, json);
