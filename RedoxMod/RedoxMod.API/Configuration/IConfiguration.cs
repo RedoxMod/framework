@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,10 +14,12 @@ namespace RedoxMod.API.Configuration
 
         string WorkingDirectory { get; }
 
-        Task<object> LoadConfigAsync(string fileName = "");
+        string FullPath { get; }
 
-        Task<bool> SaveConfigAsync([DisallowNull]object defaultConfig, string fileName = "");
+        Task<object> LoadConfigAsync();
 
-        Task<bool> ExistsAsync(string fileName = "");
+        Task SaveConfigAsync(object defaultConfig);
+
+        Task<bool> ExistsAsync();
     }
 }
