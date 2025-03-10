@@ -1,6 +1,7 @@
 ﻿using Acornima.Ast;
 using Jint;
 using Jint.Native.Function;
+using RedoxMod.API;
 using RedoxMod.API.Eventing;
 using RedoxMod.API.Plugins;
 using RedoxMod.Architecture;
@@ -14,6 +15,7 @@ namespace RedoxMod.Core.Plugins
 {
     public class RedoxPlugin : IRedoxPlugin
     {
+        private const string DEFAULT_CONFIG_FILENAME = "configuration.json";
 
         private Engine _engine;
         private Prepared<Script> _script;
@@ -23,6 +25,22 @@ namespace RedoxMod.Core.Plugins
 
         private readonly IList<RegisteredHook> _hooks = new List<RegisteredHook>();
 
+        public IRedoxApplication Application { get; private set; }
+
+        public IContainer Container { get; }
+
+        public IPluginContext Context => throw new NotImplementedException();
+
+        public IPluginLoader Loader { get; private set; }
+
+        public PluginStatus Status
+        {
+            get;
+            private set;
+        } = PluginStatus.NotLoaded;
+
+        public string ConfigPath { get; private set; }
+
         public RedoxPlugin(IContainer container)
         {
             this.Container = container;
@@ -30,21 +48,15 @@ namespace RedoxMod.Core.Plugins
             this._eventBus = container.Resolve<IEventBus>();
         }
 
-        public IContainer Container { get; }
-
-        public IPluginContext Context => throw new NotImplementedException();
-
-        public IPluginLoader Loader => throw new NotImplementedException();
-
-        public PluginStatus Status { get; private set; }
-
-        public Task<bool> DeInitializeAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> InitializeAsync()
         {
+            // Resolve services from the container.
+            this.Application = this.Container.Resolve<IRedoxApplication>();
+            this.Loader = this.Container.Resolve<IPluginLoader>();
+
+            this.ConfigPath = Path.Combine(this.Application.ConfigurationsPath, DEFAULT_CONFIG_FILENAME);
+
+
             string fullPluginPath = this.GetAbsolutePath();
 
             if(!File.Exists(fullPluginPath))
@@ -77,6 +89,11 @@ namespace RedoxMod.Core.Plugins
             // var pluginInstance = this._engine.Evaluate($"const plugin = new {mainPluginClass}()");
 
             return true;
+        }
+
+        public Task<bool> DeInitializeAsync()
+        {
+            throw new NotImplementedException();
         }
 
         private async Task RegisterEventHandlersAsync()

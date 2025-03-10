@@ -8,6 +8,10 @@ namespace RedoxMod.API.Plugins
 {
     public interface IRedoxPlugin
     {
+        string ConfigPath { get; }
+
+        IRedoxApplication Application { get; }
+
         IContainer Container { get; }
 
         IPluginContext Context { get; }
