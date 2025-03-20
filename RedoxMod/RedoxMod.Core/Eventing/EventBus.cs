@@ -39,7 +39,7 @@ namespace RedoxMod.Core.Eventing
         }
         public Task UnsubscribeAsync(string eventName, Action<IEvent> handler)
         {
-            if (!_eventHandlers.ContainsKey(eventName)) return Task.CompletedTask; ;
+            if (!_eventHandlers.ContainsKey(eventName)) return Task.CompletedTask; 
 
             _eventHandlers[eventName].Remove(handler);
 
