@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Config = RedoxMod.Core.Configuration.Configuration;
+using Config = RedoxMod.Core.Configuration.FileConfiguration;
 
 namespace RedoxMod.Tests.Core.Configuration
 {
