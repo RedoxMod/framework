@@ -107,8 +107,7 @@ namespace RedoxMod.Core.Plugins
                         this._engine.Invoke($"plugin.{hook.Name}", eventData);
                     });
                 }
-            }
-           
+            }      
         }
         private void LoadMethods()
         {
