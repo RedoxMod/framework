@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RedoxMod.Core.Configuration
 {
-    public sealed class PluginConfiguration : Configuration
+    public sealed class PluginConfiguration : FileConfiguration
     {
         public IRedoxPlugin Plugin { get; }
 

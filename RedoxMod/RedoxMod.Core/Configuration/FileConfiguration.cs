@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RedoxMod.Core.Configuration
 {
-    public class Configuration : IConfiguration
+    public class FileConfiguration : IConfiguration
     {
        
         public string FileName { get; }
@@ -15,7 +15,7 @@ namespace RedoxMod.Core.Configuration
 
         public string FullPath => Path.Combine(this.WorkingDirectory, this.FileName);
 
-        public Configuration(string fileName, string workingDirectory)
+        public FileConfiguration(string fileName, string workingDirectory)
         {
             FileName = fileName;
             WorkingDirectory = workingDirectory;
