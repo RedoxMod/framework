@@ -26,21 +26,12 @@ namespace RedoxMod.Core.Configuration
             return Task.FromResult(File.Exists(this.FullPath));
         }    
 
-        public async Task<object> LoadConfigAsync()
+        public async Task<object> LoadAsync()
         {
-
-            bool exists = await this.ExistsAsync();
-
-            if (!exists) 
-                return null;
-
-            string json = await File.ReadAllTextAsync(this.FullPath);
-            object ob = JsonConvert.DeserializeObject(json);
-
-            return ob;
+            return await this.LoadAsync<object>();
         }
 
-        public async Task SaveConfigAsync(object defaultConfig)
+        public async Task SaveAsync(object defaultConfig)
         {
             if (defaultConfig == null)
                 throw new Exception("Failed to save config. Object is null!");
@@ -52,6 +43,19 @@ namespace RedoxMod.Core.Configuration
 
             string json = JsonConvert.SerializeObject(defaultConfig, Formatting.Indented);
             await File.WriteAllTextAsync(this.FullPath, json);
-        }      
+        }
+
+        public async Task<T> LoadAsync<T>()
+        {
+            bool exists = await this.ExistsAsync();
+
+            if (!exists)
+                return default;
+
+            string json = await File.ReadAllTextAsync(this.FullPath);
+            T ob = JsonConvert.DeserializeObject<T>(json);
+
+            return ob;
+        }
     }
 }
