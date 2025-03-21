@@ -13,10 +13,13 @@ namespace RedoxMod.Core.Configuration
 
         public OptimizationSettings Optimization { get; set; }
 
+        public PluginManagementSettings PluginManagement { get; set; }
+
         public RedoxConfiguration Init()
         {
             this.General = new GeneralSettings();
             this.Optimization = new OptimizationSettings();
+            this.PluginManagement = new PluginManagementSettings();
             return this;
         }
 
