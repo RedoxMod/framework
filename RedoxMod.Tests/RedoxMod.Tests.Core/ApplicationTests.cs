@@ -5,6 +5,7 @@ using NUnit.Framework;
 using RedoxMod.API;
 using RedoxMod.Architecture;
 using RedoxMod.Core;
+using RedoxMod.Core.Configuration;
 
 namespace RedoxMod.Tests.Core
 {
@@ -28,7 +29,7 @@ namespace RedoxMod.Tests.Core
             var app = new RedoxApplication();
 
             // Assert
-            Assert.That(app.BasePath, Is.EqualTo(Path.Combine(Directory.GetCurrentDirectory(), "redox")));
+            Assert.That(app.BasePath, Is.EqualTo(Path.Combine(Directory.GetCurrentDirectory(), "Redox")));
         }
 
         [Test]
@@ -66,6 +67,7 @@ namespace RedoxMod.Tests.Core
             Directory.Delete(testBasePath, true);
         }
 
+   
         [Test]
         public async Task InitializeAsync_Should_Initialize_Container()
         {

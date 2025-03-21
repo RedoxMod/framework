@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using RedoxMod.API;
 using RedoxMod.API.Configuration;
 using RedoxMod.Architecture;
+using RedoxMod.Core.Configuration;
 using Semver;
 
 namespace RedoxMod.Core
@@ -13,7 +14,10 @@ namespace RedoxMod.Core
     [ServiceInfo("Application", ServiceLifetime.Singleton)]
     public sealed class RedoxApplication : IRedoxApplication
     {
+        private readonly IConfiguration _fileConfiguration;
         private readonly IList<ServiceProvider> _serviceProviders = new List<ServiceProvider>();
+
+        public RedoxConfiguration Config { get; private set; } = new RedoxConfiguration();
 
         public ServiceProvider[] Providers
         {
@@ -22,10 +26,7 @@ namespace RedoxMod.Core
                 return this._serviceProviders.ToArray();
             }
         }
-
-        public IConfiguration Configuration => throw new NotImplementedException();
-
-
+      
         /// <inheritdoc />
         public SemVersion Version
         {
@@ -55,19 +56,32 @@ namespace RedoxMod.Core
         public string RootPath { get; private set;}   
         public RedoxApplication(string basePath = "")
         {
-            BasePath = string.IsNullOrEmpty(basePath) ? 
-                    Path.Combine(Directory.GetCurrentDirectory(), "redox") 
+            this.BasePath = string.IsNullOrEmpty(basePath) ? 
+                    Path.Combine(Directory.GetCurrentDirectory(), "Redox") 
                     : basePath;
-            
+
+            this._fileConfiguration = new FileConfiguration("redox_config.json", this.BasePath);
         }
 
         /// <inheritdoc />
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
             this.CheckDirectories();
-            this.RegisterBindings();
 
-            return Task.CompletedTask;
+            await this.LoadConfig();
+
+            this.RegisterBindings();
+        }
+
+        private async Task LoadConfig()
+        {
+            if(!(await this._fileConfiguration.ExistsAsync()))
+            {
+                await this._fileConfiguration.SaveAsync(this.Config.Init());
+                return;
+            }
+
+            this.Config = await this._fileConfiguration.LoadAsync<RedoxConfiguration>();
         }
 
         private void RegisterBindings()
