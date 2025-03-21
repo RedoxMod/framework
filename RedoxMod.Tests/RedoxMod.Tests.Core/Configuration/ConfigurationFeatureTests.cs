@@ -33,7 +33,7 @@ namespace RedoxMod.Tests.Core.Configuration
             var testData = new { Name = "RedoxMod", Version = "1.0" };
 
             // Act
-            await _config.SaveConfigAsync(testData);
+            await _config.SaveAsync(testData);
 
             // Assert
             Assert.IsTrue(File.Exists(_testFullPath));
@@ -56,7 +56,7 @@ namespace RedoxMod.Tests.Core.Configuration
             File.WriteAllText(_testFullPath, json);
 
             // Act
-            var result = await _config.LoadConfigAsync();
+            var result = await _config.LoadAsync();
 
             // Assert
             Assert.IsNotNull(result);

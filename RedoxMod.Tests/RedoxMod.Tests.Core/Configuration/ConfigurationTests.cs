@@ -56,7 +56,7 @@ namespace RedoxMod.Tests.Core.Configuration
         public async Task LoadConfigAsync_ShouldReturnNull_WhenFileDoesNotExist()
         {
             // Act
-            var result = await _config.LoadConfigAsync();
+            var result = await _config.LoadAsync();
 
             // Assert
             Assert.IsNull(result);
@@ -66,7 +66,7 @@ namespace RedoxMod.Tests.Core.Configuration
         public Task SaveConfigAsync_ShouldThrowException_WhenObjectIsNull()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<Exception>(async () => await _config.SaveConfigAsync(null));
+            var ex = Assert.ThrowsAsync<Exception>(async () => await _config.SaveAsync(null));
             Assert.AreEqual("Failed to save config. Object is null!", ex.Message);
             return Task.CompletedTask;
         }
