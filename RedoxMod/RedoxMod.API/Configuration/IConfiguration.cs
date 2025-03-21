@@ -16,9 +16,10 @@ namespace RedoxMod.API.Configuration
 
         string FullPath { get; }
 
-        Task<object> LoadConfigAsync();
+        Task<T> LoadAsync<T>();
+        Task<object> LoadAsync();
 
-        Task SaveConfigAsync(object defaultConfig);
+        Task SaveAsync(object defaultConfig);
 
         Task<bool> ExistsAsync();
     }
